@@ -1,0 +1,3 @@
+Flask==0.12.2
+requests==2.19.1
+Werkzeug<0.13.0,>=0.12.0
