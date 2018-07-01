@@ -1,7 +1,9 @@
-# Kaggler-ja Slack log gatheing system and viwer
+# Kaggler-ja Slack log gatheing system and viwer on GAE
 
-I develop to dump and view log in [Kaggler-ja slack](https://kaggler-ja.herokuapp.com/). 
+I develop this tool to dump and view log in [Kaggler-ja slack](https://kaggler-ja.herokuapp.com/). 
 
-Maybe, this tool can be used on your slack with small change.
+This tool works on Google App Engine (GAE).
+
+Maybe, you can use this on your slack with small change.
 
 Our demo is here: https://kaggler-ja-slack-archive.appspot.com/
