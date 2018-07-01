@@ -67,4 +67,4 @@ def batch():
 def server_error(e):
     # Log the error and stacktrace.
     logging.error('An internal error occurred.' + traceback.format_exc())
-    return 'An internal error occurred.' + traceback.format_exc(), 500
+    return 'An internal error occurred.', 500
