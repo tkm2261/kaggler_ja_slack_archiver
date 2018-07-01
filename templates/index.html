@@ -64,6 +64,7 @@
 		    {{ msg.get_conved_text() | safe }}
 		    
 		  </h5>
+		{% if msg.reactions %}{% for react in msg.reactions %}<span class="reaction">:{{ react.name }}:{{react.count}}</span>{% endfor%}{% endif %}		  
 		</div>
               </div>	      
             </div>
@@ -86,6 +87,12 @@
   <script type="text/javascript">
     window.onload = function () {
     var messages = document.getElementsByClassName("person-text");
+    for( var i = 0; i < messages.length; i++ ) {
+      var input = messages[i].innerHTML;
+      var output = emojione.shortnameToUnicode(input);
+      messages[i].innerHTML = output;
+    }
+    var messages = document.getElementsByClassName("reaction");
     for( var i = 0; i < messages.length; i++ ) {
       var input = messages[i].innerHTML;
       var output = emojione.shortnameToUnicode(input);

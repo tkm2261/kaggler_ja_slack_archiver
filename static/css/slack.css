@@ -313,6 +313,16 @@ body{
   text-align: left;
 }
 
+.reaction{ 
+  font-size: 15px;
+  background-color: #EAF6FD;
+  color: #00A7EA;
+  padding: 3px;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+
+
 .search-bottom{
   position: absolute;
   display: block;
