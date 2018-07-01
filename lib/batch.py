@@ -22,12 +22,8 @@ def get_slack_data():
 
 
 def _get_slack_data():
-    api_key = os.environ.get('KAGGLER_SLACK_API_KEY')
-    settings = Settings.query(Settings.api_key == api_key).get()
-    if settings is None:
-        Settings(api_key=api_key).put()
-    else:
-        api_key = settings.api_key
+    settings = Settings.query().get()
+    api_key = settings.api_key
     if api_key is None:
         raise Exception('please set environment variable KAGGLER_SLACK_API_KEY')
 

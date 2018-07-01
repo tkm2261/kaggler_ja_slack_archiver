@@ -90,6 +90,7 @@ body{
   #position: absolute;
   #left: 13%;
   #top: 14%;
+  width: 100%;
   color: white;
   font-family:"lato";
   font-size: 13px;
