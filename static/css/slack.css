@@ -1,0 +1,352 @@
+body{
+  
+  padding-top: 0px;
+  background-color:rgba(99, 74, 96, 0.9);
+  background-size: cover;
+  
+}
+
+#square {
+  position: relative;
+  min-width: 400px;
+  height: 100vh;
+  display: block;
+  margin: auto;
+  background: white;
+  z-index: 1;
+}
+	
+#leftSquare {
+  height: 100vh;
+  position: relative;
+  background:#4D394B;
+  overflow: scroll;
+  padding: 10px 10px 0 20px;
+}
+
+#rightSquare {
+    height: 100vh;
+  overflow: scroll;    
+  position: relative;
+  padding: 10px 10px 0 20px;
+}
+
+.light{
+  margin-left: 5px;
+  opacity: 0.5;
+}
+
+.highlight-channel{
+  background-color: #4C9689;
+
+}
+
+#header {
+  display: block;
+  background-size: cover;
+}
+
+#footer {
+  display: block;
+  background-size: cover;
+  text-align: center;
+}
+
+
+.title{
+  color: white;
+  font-family:"lato";
+  font-size: 20px;
+  font-weight: 800;
+  padding-left: 10%;
+  text-align: left;
+  #z-index: 3;
+}
+
+.subtitle{
+  position: absolute;
+  left: 19%;
+  top: 6%;
+  color: white;
+  font-family:"lato";
+  font-size: 13px;
+  opacity: 0.5;
+  font-weight: 100;
+  text-align: center;
+  z-index: 3;
+}
+
+#channel-title{
+  color: #2C2D30;
+  font-family:"lato";
+  font-size: 18px;
+  font-weight: 800;
+  padding-left: 3%;
+  text-align: left;
+  z-index: 3;
+}
+
+.channels{
+  #position: absolute;
+  #left: 13%;
+  #top: 14%;
+  color: white;
+  font-family:"lato";
+  font-size: 13px;
+  opacity: 0.6;
+  font-weight: 400;
+  padding-left: 10%;  
+  #text-align: center;
+  z-index: 3;
+}
+
+.channel{
+  color: white;
+  font-family:"lato";
+  font-size: 13px;
+  opacity: 1.0;
+  font-weight: 100;
+  padding-left: 15%;    
+  text-align: left;
+  margin-top: 5px; 
+  margin-bottom: 5px; 
+}
+
+
+.add{
+  position: absolute;
+  right: -72%;
+  opacity: 0.6;
+  top: 5%;
+  
+}
+
+.add-two{
+  position: absolute;
+  right: -15%;
+  opacity: 0.6;
+  top: 5%;
+  z-index: 3;
+  
+}
+
+.star{
+  padding-left: 3%;
+  opacity: 0.6;
+  z-index: 3;
+  
+}
+.user{
+  padding-left: 4%;
+  opacity: 0.6;
+  z-index: 3;
+  
+}
+.pin{
+  padding-left: 4%;
+  opacity: 0.4;
+  z-index: 3;
+  
+}
+.phone{
+  position: absolute;
+  top: 45%;
+  right: 48%;
+  opacity: 0.6;
+  z-index: 3;
+}
+  
+.cog{
+  position: absolute;
+  top: 45%;
+  right: 42%;
+  opacity: 0.6;
+  z-index: 3;
+  
+}
+
+.details{
+  position: absolute;
+  top: 45%;
+  right: 36%;
+  opacity: 0.6;
+  z-index: 3;
+  
+}
+
+.search-glass{
+    position: absolute;
+  top: 43%;
+  right: 28%;
+  opacity: 0.5;
+  z-index: 3;
+  
+}
+
+.at{
+  
+  position: absolute;
+  top: 45%;
+  right: 12%;
+  opacity: 0.6;
+  z-index: 3;
+}
+
+.star-o{
+  
+   position: absolute;
+  top: 45%;
+  right: 7%;
+  opacity: 0.6;
+  z-index: 3;
+  
+}
+
+.menu{
+  
+     position: absolute;
+  top: 45%;
+  right: 3%;
+  opacity: 0.6;
+  z-index: 3;
+}
+
+.search{
+  position: absolute;
+  right: 17%;
+  top: 38%;
+  height: 30%;
+  width: 14%;
+  font-weight: 100;
+  padding-left: 20px;
+  font-family:"lato";
+  font-size: 12px;
+  opacity: 0.6;
+  color: #2C2D30;
+}
+
+.line{
+  
+  position: absolute;
+  left: 7%;
+  top: 46.5%;
+  font-family:"lato";
+  font-size: 13px;
+  opacity: 0.5;
+  font-weight: 100;
+  color: #2C2D30;
+  
+}
+
+.bottom-header-line{
+  margin-left: 8px;
+  width: 98%;
+  margin-top: 0;
+  
+}
+
+
+.message{
+  padding-bottom: 20px;
+}
+
+
+.bell{
+  position: absolute;
+  color: #D0CDD0;
+  opacity: 0.6;
+  top: 5%;
+  left: 89%;
+  
+}
+
+.down{
+   position: absolute;
+  color: #D0CDD0;
+  opacity: 0.3;
+  top: 4.25%;
+  left: 80%;
+  
+}
+
+#message-area{
+  
+  width: 70%;
+  right: 2%;
+
+}
+
+.person{
+  width: 50px;
+  height: 50px;
+  border: white;
+}
+
+.person-img{
+    border-radius: 10%;
+}
+
+.person-name{ 
+  color: #2C2D30;
+  font-family:"lato";
+  font-size: 15px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.time{
+  color: #2C2D30;
+  padding-left: 5px;
+  font-family:"lato";
+  font-size: 12px;
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+.person-text{ 
+  color: #2C2D30;
+  font-family:"lato";
+  font-size: 15px;
+  margin-bottom:0;
+  font-weight: 400;
+  text-align: left;
+}
+
+.search-bottom{
+  position: absolute;
+  display: block;
+  margin: auto;
+  left: 28%;
+  bottom: 3%;
+  height: 5%;
+  width: 70%;
+  font-weight: 100;
+  padding-left: 28px;
+  font-family:"lato";
+  font-size: 12px;
+  opacity: 0.6;
+  color: #2C2D30;
+}
+
+.smile{
+  
+  position: absolute;
+  display: block;
+  margin: auto;
+  bottom: 4%;
+  right: 3%;
+  opacity: 0.6;
+  color: #2C2D30;
+}
+
+.plus{
+  
+  position: absolute;
+  display: block;
+  margin: auto;
+  bottom: 3.75%;
+  left: 28.75%;
+  opacity: 0.3;
+  color: #2C2D30;
+}
+

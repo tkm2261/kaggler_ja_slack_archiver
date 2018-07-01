@@ -1,16 +1,82 @@
-<html>
-  <head>
-    <title>Submit a form</title>
-   <link rel="stylesheet" type="text/css" href="/static/style.css">
-  </head>
-  <body>
-    <div id="container">
-      <div class="pagetitle">
-        <h1>Submit a form</h1>
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Kaggler-ja slack Log Viewer{% if ch_name %}: {{ ch_name  }}{% endif %}</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+<link rel="stylesheet" href="/static/css/slack.css">
+  
+</head>
+
+<body>
+  <div class="countainer" id="square">
+    <div class="row">
+      <div class="col-2" id="leftSquare">
+	<div class="row">
+          <div class="col-8">
+            <h1 class="title">kaggler-ja</h1>
+          </div>
+	</div>
+	<div class="row">
+          <h2 class="channels">CHANNELS<span class="light">{{ channels.size }} </span>  </h2>
+	</div>
+	{% for channel in channels %}
+	  <a href="?ch={{ channel.id }}">	
+	<div class="row {% if channel.id == current_ch %}highlight-channel{% endif %}" >
+            <h2 class="channel"># {{ channel.name }}</h2>
+	</div>
+	  </a>	
+	{% endfor %}      
       </div>
-      <div id="main">
-	{{ page_more }}
+      
+      <div class="col-10" id="rightSquare">    
+	<div id="header">  
+	  <h2 id="channel-title">
+            # {{ current_ch_name }}
+	  </h2>
+	  <hr class="bottom-header-line" />
+	</div>
+      
+	<div id="message-area">
+	  {% for msg in messages %}
+	  <div class="message">
+            <div class="container">
+              <div class="row">
+		<div class="col-1">
+		  <img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
+		</div>
+		<div class="col-11"> 
+		  <h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> </h4>
+		  <h5 class="person-text">
+              
+		    {{ msg.get_conved_text() | safe }}
+		    
+		  </h5>
+		</div>
+              </div>	      
+            </div>
+	  </div>
+	  {% endfor %}
+	</div>
+	<div id="footer">
+	  <nav aria-label="Page navigation example">
+	    <ul class="pagination">
+	      <li class="page-item"><a class="page-link" href="?ch={{current_ch}}&ts={{ current_ts }}&type=0">Previous</a></li>
+	      <li class="page-item"><a class="page-link" href="?ch={{current_ch}}&ts={{ next_ts }}">Next</a></li>
+	    </ul>
+	  </nav>
+	</div>
       </div>
-    </div>
-  </body>
+    </div>            
+  </div>
+</body>
 </html>

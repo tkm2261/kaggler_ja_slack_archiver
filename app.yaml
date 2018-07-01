@@ -2,13 +2,13 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+
 # [START handlers]
 handlers:
 - url: /static
   static_dir: static
+  
 - url: /.*
   script: main.app
 
-- url: /cron/job #ジョブを呼び出すURL
-  script: ./batch.py #処理するスクリプト
-  login: admin #管理者権限で処理
+  

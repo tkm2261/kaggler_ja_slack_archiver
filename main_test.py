@@ -44,6 +44,8 @@ def test_get_slack_api():
         raise Exception('please set environment variable KAGGLER_SLACK_API_KEY')
 
     sd = SlackDumper(api_key)
-    sd.get_user_list()
-    sd.get_channel_list()
-    sd.get_channels_histoey()
+    # sd.get_user_list()
+    a = sd.get_channel_list()
+    import pdb
+    pdb.set_trace()
+    # sd.get_channels_histoey()

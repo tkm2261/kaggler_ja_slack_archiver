@@ -3,7 +3,7 @@
 import time
 import json
 
-import requests
+import urllib2
 
 from logging import getLogger
 logger = getLogger(__name__)
@@ -32,8 +32,10 @@ class SlackDumper(object):
         cursor = ''
         while 1:
             url = self.USERS_LIST_URL_FORMAT.format(token=self.api_key, cursor=cursor)
-            r = requests.get(url, headers={"content-type": "application/json"})
-            data = r.json()
+
+            r = urllib2.urlopen(url)
+            data = json.loads(r.read())
+
             if not data['ok']:
                 raise Exception('fail to get users.list data')
             list_users += data['members']
@@ -57,8 +59,10 @@ class SlackDumper(object):
         cursor = ''
         while 1:
             url = self.CHANNELS_LIST_URL_FORMAT.format(token=self.api_key, cursor=cursor)
-            r = requests.get(url, headers={"content-type": "application/json"})
-            data = r.json()
+
+            r = urllib2.urlopen(url)
+            data = json.loads(r.read())
+
             if not data['ok']:
                 raise Exception('fail to get channels.list data')
             list_channels += data['channels']
@@ -75,7 +79,7 @@ class SlackDumper(object):
         logger.debug('enter')
         latest = time.time()
         oldest = time.time() - (3600 * 24 * days) if days is not None else 0
-        cursor = ''
+
         map_channles_hist = {}
         for ch_data in self.get_channel_list():
             channel_id = ch_data['id']
@@ -92,11 +96,12 @@ class SlackDumper(object):
                                                           channel=channel_id,
                                                           latest=latest,
                                                           oldest=oldest)
-            r = requests.get(url, headers={"content-type": "application/x-www-form-urlencoded"})
 
-            data = r.json()
+            r = urllib2.urlopen(url)
+            data = json.loads(r.read())
+
             if not data['ok']:
-                raise Exception('fail to get %s channel history  data' % ch)
+                raise Exception('fail to get %s channel history  data' % channel_id)
             list_channel_hist += data['messages']
             if data['has_more']:
                 latest = data['messages'][-1]['ts']
@@ -105,3 +110,15 @@ class SlackDumper(object):
         logger.info('get %s messages in %s' % (len(list_channel_hist), channel_id))
         logger.debug('exit')
         return list_channel_hist
+
+
+if __name__ == '__main__':
+    import os
+    api_key = os.environ.get('KAGGLER_SLACK_API_KEY')
+    if api_key is None:
+        raise Exception('please set environment variable KAGGLER_SLACK_API_KEY')
+
+    sd = SlackDumper(api_key)
+    # sd.get_user_list()
+    sd.get_channel_list()
+    ttt = sd.get_channels_histoey()
