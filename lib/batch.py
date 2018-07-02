@@ -23,9 +23,14 @@ def get_slack_data():
 
 def _get_slack_data():
     settings = Settings.query().get()
-    api_key = settings.api_key
-    if api_key is None:
-        raise Exception('please set environment variable KAGGLER_SLACK_API_KEY')
+    try:
+        api_key = settings.api_key
+    except AttributeError:
+        api_key = os.environ.get('SLACK_API_KEY')
+        if api_key is None:
+            raise Exception('please set environment variable SLACK_API_KEY')
+        else:
+            Settings(api_key=api_key).put()
 
     sd = SlackDumper(api_key)
     ents = set(dir(User))
@@ -73,7 +78,6 @@ def _get_slack_data():
 
 if __name__ == '__main__':
     from logging import StreamHandler, Formatter, FileHandler
-
     log_fmt = Formatter('%(asctime)s %(name)s %(lineno)d [%(levelname)s][%(funcName)s] %(message)s ')
 
     handler = StreamHandler()

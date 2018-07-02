@@ -11,7 +11,7 @@ from lib.batch import get_slack_data
 
 app = Flask(__name__)
 
-ch_general_key = 'C0M91A5FX'
+CH_GENERAL_KEY = 'C0M91A5FX'
 
 NUM_MASSAGES_PER_PAGE = 50
 
@@ -20,10 +20,14 @@ NUM_MASSAGES_PER_PAGE = 50
 def index():
     ch = request.args.get('ch')
     if ch is None:
-        ch = ch_general_key
+        ch = CH_GENERAL_KEY
+    try:
+        ch_name = Channel.query().filter(Channel.id == ch).get().name
+    except AttributeError:
+        # maybe there is no data. try to get log data.
+        return redirect('/cron/job')
 
-    ch_name = Channel.query().filter(Channel.id == ch).get().name
-
+        
     ts = request.args.get('ts')
     try:
         ts = float(ts)
