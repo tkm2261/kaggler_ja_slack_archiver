@@ -38,7 +38,6 @@ body{
 
 .highlight-channel{
   background-color: #4C9689;
-
 }
 
 #header {
@@ -322,6 +321,11 @@ body{
   border-radius: 5px;
 }
 
+.link-user{
+  background-color: #EAF6FD;
+  color: #00A7EA;
+  
+}
 
 .search-bottom{
   position: absolute;

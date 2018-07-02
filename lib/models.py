@@ -38,6 +38,12 @@ class User(ndb.Model):
     updated = ndb.IntegerProperty()
     is_app_user = ndb.BooleanProperty()
 
+    def get_display_name(self):
+        user_name = self.profile['display_name']
+        if user_name == '':
+            user_name = self.name
+        return user_name
+
 
 class Channel(ndb.Model):
 
@@ -63,11 +69,9 @@ class Channel(ndb.Model):
     num_members = ndb.IntegerProperty()
 
 
-URL_PATTERN = re.compile(r'([^"]|^)(https?|ftp)(://[\w:;/.?%#&=+-]+)')
-
-
-def conv_url(text):
-    return URL_PATTERN.sub(r'\1<a href="\2\3", target="_blank">\2\3</a>', text)
+URL_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)>')
+CHANNEL_PATTERN = re.compile(r'<#([A-Z0-9]+)\|([\w;/.?%#&=+-]+)>')
+USER_PATTERN = re.compile(r'<@([A-Z0-9]+)>')
 
 
 class Message(ndb.Model):
@@ -86,10 +90,23 @@ class Message(ndb.Model):
             return None
 
     def get_user_name(self):
-        return User.query(User.id == self.user).get().name
+        return User.query(User.id == self.user).get().get_display_name()
 
     def get_user_img_url(self):
         return User.query(User.id == self.user).get().profile['image_48']
 
+    def _conv_url(self, text):
+        return URL_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
+
+    def _conv_channel_url(self, text):
+        return CHANNEL_PATTERN.sub(r'<a class="link-channel" href="/?ch=\1">#\2</a>', text)
+
+    def _conv_user_name(self, text):
+        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
+
     def get_conved_text(self):
-        return conv_url(self.text)
+        text = self._conv_url(self.text)
+        text = self._conv_channel_url(text)
+        text = self._conv_user_name(text)
+
+        return text
