@@ -15,6 +15,8 @@ CH_GENERAL_KEY = 'C0M91A5FX'
 
 NUM_MASSAGES_PER_PAGE = 50
 
+DAYS_REQUEST_PAST_LOG = 1
+
 
 @app.route('/')
 def index():
@@ -27,7 +29,6 @@ def index():
         # maybe there is no data. try to get log data.
         return redirect('/cron/job')
 
-        
     ts = request.args.get('ts')
     try:
         ts = float(ts)
@@ -63,7 +64,7 @@ def index():
 
 @app.route('/cron/job')
 def batch():
-    get_slack_data()
+    get_slack_data(days=DAYS_REQUEST_PAST_LOG)
     return redirect('/')
 
 

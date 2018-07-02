@@ -9,10 +9,10 @@ from lib.slack_dumper import SlackDumper
 from lib.models import User, Channel, Message, Settings
 
 
-def get_slack_data():
+def get_slack_data(days=None):
 
     try:
-        _get_slack_data()
+        _get_slack_data(days)
     except Exception as e:
         import traceback
         trc = traceback.format_exc()
@@ -21,7 +21,7 @@ def get_slack_data():
         raise e
 
 
-def _get_slack_data():
+def _get_slack_data(days):
     settings = Settings.query().get()
     try:
         api_key = settings.api_key
@@ -58,7 +58,7 @@ def _get_slack_data():
             channel.put()
 
     ents = set(dir(Message))
-    for channel_id, messages in sd.get_channels_histoey().items():
+    for channel_id, messages in sd.get_channels_histoey(days=days).items():
         for message in messages:
             message['channel_id'] = channel_id
             user = message.get('user', '')

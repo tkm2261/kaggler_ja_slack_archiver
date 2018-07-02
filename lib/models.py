@@ -83,6 +83,14 @@ class Message(ndb.Model):
     ts_raw = ndb.StringProperty()
     reactions = ndb.JsonProperty()
 
+    _user_data = None
+
+    @property
+    def user_data(self):
+        if self._user_data is None:
+            self._user_data = User.query(User.id == self.user).get()
+        return self._user_data
+
     def get_ts_timestamp(self):
         try:
             return datetime.datetime.fromtimestamp(self.ts).strftime('%Y/%m/%d %H:%M')
@@ -90,10 +98,10 @@ class Message(ndb.Model):
             return None
 
     def get_user_name(self):
-        return User.query(User.id == self.user).get().get_display_name()
+        return self.user_data.get_display_name()
 
     def get_user_img_url(self):
-        return User.query(User.id == self.user).get().profile['image_48']
+        return self.user_data.profile['image_48']
 
     def _conv_url(self, text):
         return URL_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
@@ -102,7 +110,7 @@ class Message(ndb.Model):
         return CHANNEL_PATTERN.sub(r'<a class="link-channel" href="/?ch=\1">#\2</a>', text)
 
     def _conv_user_name(self, text):
-        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
+        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + self.user_data.get_display_name() + '</span>', text)
 
     def get_conved_text(self):
         text = self._conv_url(self.text)
