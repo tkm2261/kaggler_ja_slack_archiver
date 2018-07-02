@@ -116,5 +116,5 @@ class Message(ndb.Model):
         text = self._conv_url(self.text)
         text = self._conv_channel_url(text)
         text = self._conv_user_name(text)
-
+        text = text.replace('\n', '<br/>')
         return text
