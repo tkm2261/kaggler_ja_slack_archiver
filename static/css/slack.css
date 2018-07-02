@@ -310,6 +310,7 @@ body{
   margin-bottom:0;
   font-weight: 400;
   text-align: left;
+  word-wrap: break-word;
 }
 
 .reaction{ 
