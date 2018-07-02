@@ -19,5 +19,5 @@ Our demo is here: https://kaggler-ja-slack-archive.appspot.com/
 1. Set your Slack API Key as environment variable: SLACK_API_KEY or set the key as Settings.api_key entity on datastore.
     * On local development server, you can set environment variable like `dev_appserver.py --env_var SLACK_API_KEY=xxxx app.yaml`
 1. Deploy your app. `gcloud app deploy app.yaml index.yaml cron.yaml`. If you want to try on local, run `dev_appserver.py app.yaml` instead.
-1. Kick first log downloading by accessing http://<your url>/cron/job
-1. See your top page http://<your url>/
+1. Kick first log downloading by accessing http://your_url/cron/job
+1. See your top page http://your_url/
