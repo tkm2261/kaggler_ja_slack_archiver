@@ -51,23 +51,21 @@
       
 	<div id="message-area">
 	  {% for msg in messages %}
-	  <div class="message">
-            <div class="container">
-              <div class="row">
-		<div class="col-1">
-		  <img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
-		</div>
-		<div class="col-11"> 
-		  <h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> </h4>
-		  <h5 class="person-text">
+	  <div class="container message">
+            <div class="row">
+	      <div class="col-1 person-img-container">
+		<img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
+	      </div>
+	      <div class="col-11"> 
+		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> </h4>
+		<h5 class="person-text">
               
-		    {{ msg.get_conved_text() | safe }}
+		  {{ msg.get_conved_text() | safe }}
 		    
-		  </h5>
+		</h5>
 		{% if msg.reactions %}{% for react in msg.reactions %}<span class="reaction">:{{ react.name }}:{{react.count}}</span>{% endfor%}{% endif %}		  
-		</div>
-              </div>	      
-            </div>
+	      </div>
+            </div>	      
 	  </div>
 	  {% endfor %}
 	</div>

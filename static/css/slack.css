@@ -8,7 +8,7 @@ body{
 
 #square {
   position: relative;
-  min-width: 400px;
+  #min-width: 400px;
   height: 100vh;
   display: block;
   margin: auto;
@@ -80,7 +80,6 @@ body{
   font-family:"lato";
   font-size: 18px;
   font-weight: 800;
-  padding-left: 3%;
   text-align: left;
   z-index: 3;
 }
@@ -102,6 +101,7 @@ body{
 
 .channel{
   color: white;
+  white-space: nowrap;
   font-family:"lato";
   font-size: 13px;
   opacity: 1.0;
@@ -247,7 +247,8 @@ body{
 
 
 .message{
-  padding-bottom: 20px;
+    padding-bottom: 20px;
+    margin: 0px;
 }
 
 
@@ -270,10 +271,7 @@ body{
 }
 
 #message-area{
-  
-  width: 70%;
-  right: 2%;
-
+    padding: 0 20px 0 0;
 }
 
 .person{
@@ -286,6 +284,10 @@ body{
     border-radius: 10%;
 }
 
+.person-img-container{
+    min-width: 48px;
+}
+
 .person-name{ 
   color: #2C2D30;
   font-family:"lato";
@@ -293,6 +295,8 @@ body{
   font-weight: 800;
   text-align: left;
 }
+
+
 
 .time{
   color: #2C2D30;
