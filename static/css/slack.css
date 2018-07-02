@@ -13,6 +13,7 @@ body{
   display: block;
   margin: auto;
   background: white;
+  overflow: hidden;
   z-index: 1;
 }
 	
@@ -20,7 +21,8 @@ body{
   height: 100vh;
   position: relative;
   background:#4D394B;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;  
   padding: 10px 10px 0 20px;
 }
 
@@ -248,7 +250,6 @@ body{
 
 .message{
     padding-bottom: 20px;
-    padding-left: 0px;
     margin: 0px;
 }
 
@@ -272,11 +273,11 @@ body{
 }
 
 #message-area{
-    padding: 0 20px 0 0;
+    padding: 0 20px 0 5px;
 }
 
 .person{
-    padding-left: 5px;
+
 }
 
 .person-img{
