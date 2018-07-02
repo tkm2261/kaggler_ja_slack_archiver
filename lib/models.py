@@ -110,7 +110,7 @@ class Message(ndb.Model):
         return CHANNEL_PATTERN.sub(r'<a class="link-channel" href="/?ch=\1">#\2</a>', text)
 
     def _conv_user_name(self, text):
-        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + self.user_data.get_display_name() + '</span>', text)
+        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
 
     def get_conved_text(self):
         text = self._conv_url(self.text)
