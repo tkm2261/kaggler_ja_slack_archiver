@@ -70,6 +70,7 @@ class Channel(ndb.Model):
 
 
 URL_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)>')
+IMG_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)\|([\w:;/.?%#&=+-]+)>')
 CHANNEL_PATTERN = re.compile(r'<#([A-Z0-9]+)\|([\w;/.?%#&=+-]+)>')
 USER_PATTERN = re.compile(r'<@([A-Z0-9]+)>')
 
@@ -104,7 +105,9 @@ class Message(ndb.Model):
         return self.user_data.profile['image_48']
 
     def _conv_url(self, text):
-        return URL_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
+        text = URL_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
+        text = IMG_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
+        return text
 
     def _conv_channel_url(self, text):
         return CHANNEL_PATTERN.sub(r'<a class="link-channel" href="/?ch=\1">#\2</a>', text)
@@ -113,7 +116,8 @@ class Message(ndb.Model):
         return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
 
     def get_conved_text(self):
-        text = self._conv_url(self.text)
+        text = self.text
+        text = self._conv_url(text)
         text = self._conv_channel_url(text)
         text = self._conv_user_name(text)
         text = text.replace('\n', '<br/>')

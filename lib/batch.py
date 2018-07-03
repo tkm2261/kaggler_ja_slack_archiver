@@ -63,11 +63,12 @@ def _get_slack_data(days):
             message['channel_id'] = channel_id
             user = message.get('user', '')
             ts_raw = message['ts']
+            ts = float(ts_raw)
             message['ts'] = float(ts_raw)
             message['ts_raw'] = ts_raw
 
             message = {k: v for k, v in message.items() if k in ents}
-            msg = Message.query().filter(Message.channel_id == channel_id, Message.user == user, Message.ts_raw == ts_raw).get()
+            msg = Message.query().filter(Message.channel_id == channel_id, Message.user == user, Message.ts == ts).get()
             if msg is None:
                 Message(**message).put()
             else:

@@ -61,11 +61,12 @@ def _import_zip_log(io_buffer):
             message['channel_id'] = channel_id
             user = message.get('user', '')
             ts_raw = str(message['ts'])
-            message['ts'] = float(ts_raw)
+            ts = float(ts_raw)
+            message['ts'] = ts
             message['ts_raw'] = ts_raw
 
             message = {k: v for k, v in message.items() if k in ents}
-            msg = Message.query().filter(Message.channel_id == channel_id, Message.user == user, Message.ts_raw == ts_raw).get()
+            msg = Message.query().filter(Message.channel_id == channel_id, Message.user == user, Message.ts == ts).get()
             if msg is None:
                 Message(**message).put()
             else:
@@ -112,8 +113,9 @@ class SlackZipDumpedLog(object):
                 msgs = json.loads(self.zipfile_buffer.read(path))
                 for msg in msgs:
                     msg['channel_id'] = channel_id
-                    ts_raw = msg['ts']
-                    msg['ts'] = float(ts_raw)
+                    ts_raw = str(msg['ts'])
+                    ts = float(ts_raw)
+                    msg['ts'] = ts
                     msg['ts_raw'] = ts_raw
                     user = msg.get('user', '')
 
