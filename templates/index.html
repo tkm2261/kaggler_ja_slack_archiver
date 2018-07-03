@@ -63,7 +63,7 @@
 		  {{ msg.get_conved_text() | safe }}
 		    
 		</h5>
-		{% if msg.reactions %}{% for react in msg.reactions %}<span class="reaction">:{{ react.name }}:{{react.count}}</span>{% endfor%}{% endif %}		  
+		{% if msg.reactions %}{% for react in msg.get_reactions() %}<span class="reaction">:{{ react.name }}:{{react.count}}</span>{% endfor%}{% endif %}		  
 	      </div>
             </div>	      
 	  </div>

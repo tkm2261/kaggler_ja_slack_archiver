@@ -104,6 +104,16 @@ class Message(ndb.Model):
     def get_user_img_url(self):
         return self.user_data.profile['image_48']
 
+    def get_reactions(self):
+        ret = []
+        for react in self.reactions:
+            text = react['name']
+            if text == '+1':
+                text = 'thumbsup'
+            react['name'] = text
+            ret.append(react)
+        return ret
+
     def _conv_url(self, text):
         text = URL_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
         text = IMG_PATTERN.sub(r'<a class="link" href="\1\2", target="_blank">\1\2</a>', text)
@@ -115,10 +125,16 @@ class Message(ndb.Model):
     def _conv_user_name(self, text):
         return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
 
+    def _conv_emoji(self, text):
+        print(text)
+        return text.replace(':+1:', ':thumbsup:')
+
     def get_conved_text(self):
         text = self.text
         text = self._conv_url(text)
         text = self._conv_channel_url(text)
         text = self._conv_user_name(text)
+        #text = self._conv_emoji(text)
+
         text = text.replace('\n', '<br/>')
         return text
