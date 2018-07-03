@@ -2,3 +2,7 @@ cron:
 - description: "daily get item job"
   url: /cron/job
   schedule: every 1 hours
+
+#- description: "loading log job"
+#  url: /upload/log
+#  schedule: every 1 hours
