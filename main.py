@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+import urllib2
 import traceback
 import logging
 logging.getLogger().setLevel(logging.DEBUG)
@@ -8,6 +9,7 @@ from flask import Flask, render_template, request, redirect
 
 from lib.models import User, Channel, Message
 from lib.batch import get_slack_data
+from lib.import_zip_log import import_zip_log
 
 app = Flask(__name__)
 
@@ -16,6 +18,8 @@ CH_GENERAL_KEY = 'C0M91A5FX'
 NUM_MASSAGES_PER_PAGE = 50
 
 DAYS_REQUEST_PAST_LOG = 1
+
+SLACK_DUMPED_LOG_URL = 'https://storage.googleapis.com/kaggler-ja-slack-archive.appspot.com/slack_log.zip'
 
 
 @app.route('/')
@@ -65,7 +69,15 @@ def index():
 @app.route('/cron/job')
 def batch():
     get_slack_data(days=DAYS_REQUEST_PAST_LOG)
-    return redirect('/')
+    return 'successfully end.', 200
+
+
+@app.route('/upload/log')
+def upload_log():
+    r = urllib2.urlopen(SLACK_DUMPED_LOG_URL)
+    import_zip_log(r)
+
+    return 'successfully end.', 200
 
 
 @app.errorhandler(500)

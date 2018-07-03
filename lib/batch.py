@@ -3,7 +3,7 @@
 import os
 
 from logging import getLogger
-logger = getLogger(None)
+logger = getLogger()
 
 from lib.slack_dumper import SlackDumper
 from lib.models import User, Channel, Message, Settings
