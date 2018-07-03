@@ -46,22 +46,27 @@ def index():
         is_forward = 1
 
     channels = Channel.query().order(Channel.created).iter()
-    if is_forward > 0:
+    if is_forward:
         messages = Message.query().filter(Message.channel_id == ch,
                                           Message.ts < ts).order(-Message.ts).fetch(NUM_MASSAGES_PER_PAGE)
     else:
         messages = Message.query().filter(Message.channel_id == ch,
-                                          Message.ts > ts).order(-Message.ts).fetch(NUM_MASSAGES_PER_PAGE)
+                                          Message.ts > ts).order(Message.ts).fetch(NUM_MASSAGES_PER_PAGE)
+        messages = [m for m in sorted(messages, key=lambda x: x.ts, reverse=True)]
+
     if len(messages) > 0:
+        current_ts = messages[0].ts + 0.01
         next_ts = messages[-1].ts
     else:
+        current_ts = ts
         next_ts = ts
+
     return render_template('index.html',
                            current_ch_name=ch_name,
                            channels=channels,
                            messages=messages,
                            current_ch=ch,
-                           current_ts=ts,
+                           current_ts=current_ts,
                            next_ts=next_ts,
                            )
 

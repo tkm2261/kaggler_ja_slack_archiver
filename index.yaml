@@ -13,3 +13,14 @@ indexes:
   - name: channel_id 
   - name: ts 
     direction: desc
+
+- kind: Message 
+  properties:
+  - name: channel_id 
+  - name: ts 
+
+
+- kind: Message
+  properties:
+  - name: user
+  - name: ts
