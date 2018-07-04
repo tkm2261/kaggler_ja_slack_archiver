@@ -57,7 +57,7 @@
 		<img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
 	      </div>
 	      <div class="col-11 person"> 
-		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> </h4>
+		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ current_ch }}&ts={{ msg.ts + 0.01}}">link to this message</a> </h4> 
 		<h5 class="person-text">
               
 		  {{ msg.get_conved_text() | safe }}

@@ -310,6 +310,14 @@ body{
   font-weight: 400;
 }
 
+.message-link{
+  padding-left: 5px;
+  font-family:"lato";
+  font-size: 12px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
 .person-text{ 
   color: #2C2D30;
   font-family:"lato";
