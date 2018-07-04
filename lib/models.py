@@ -70,7 +70,7 @@ class Channel(ndb.Model):
 
 
 URL_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)>')
-IMG_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)\|([\w:;/.?%#&=+-]+)>')
+IMG_PATTERN = re.compile(r'<(https?|ftp)(://[\w:;/.?%#&=+-]+)\|(.+?)>')
 CHANNEL_PATTERN = re.compile(r'<#([A-Z0-9]+)\|([\w;/.?%#&=+-]+)>')
 USER_PATTERN = re.compile(r'<@([A-Z0-9]+)>')
 
