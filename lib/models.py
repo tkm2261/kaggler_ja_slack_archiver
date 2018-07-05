@@ -40,7 +40,7 @@ class User(ndb.Model):
 
     def get_display_name(self):
         try:
-            user_name = self.profile['display_name']
+            user_name = self.profile['display_name'] if self.profile['display_name'] != '' else self.profile['real_name']
         except (TypeError, KeyError):
             user_name = ''
         if user_name == '':
