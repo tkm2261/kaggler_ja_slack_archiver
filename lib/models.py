@@ -39,7 +39,10 @@ class User(ndb.Model):
     is_app_user = ndb.BooleanProperty()
 
     def get_display_name(self):
-        user_name = self.profile['display_name']
+        try:
+            user_name = self.profile['display_name']
+        except (TypeError, KeyError):
+            user_name = ''
         if user_name == '':
             user_name = self.name
         return user_name
@@ -99,10 +102,16 @@ class Message(ndb.Model):
             return None
 
     def get_user_name(self):
+        if self.user_data is None:
+            return self.user
+
         return self.user_data.get_display_name()
 
     def get_user_img_url(self):
-        return self.user_data.profile['image_48']
+        try:
+            return self.user_data.profile['image_48']
+        except (TypeError, KeyError, AttributeError):
+            return ''
 
     def get_reactions(self):
         ret = []
@@ -123,7 +132,15 @@ class Message(ndb.Model):
         return CHANNEL_PATTERN.sub(r'<a class="link-channel" href="/?ch=\1">#\2</a>', text)
 
     def _conv_user_name(self, text):
-        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + User.query(User.id == x.group(1)).get().get_display_name() + '</span>', text)
+        def _get_name(x):
+            user_data = User.query(User.id == x.group(1)).get()
+            if user_data is not None:
+                user_name = user_data.get_display_name()
+            else:
+                user_name = x.group(1)
+            return user_name
+
+        return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + _get_name(x) + '</span>', text)
 
     def _conv_emoji(self, text):
         print(text)
