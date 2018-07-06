@@ -29,8 +29,8 @@ Our demo is here: https://kaggler-ja-slack-archive.appspot.com/
    * APP_NAME: set your app name. (it changes html title and left top workspace name)
 1. Set your API key to Settings.api_key entity on datastore.
 
-(optional)
-1. Import all messages of public channel (over 10,000 messages)
+# (optional) Import all messages of public channel (over 10,000 messages)
+
 1. Export your slack data. see https://get.slack.help/hc/en-us/articles/201658943-Export-your-workspace-data.
 1. Upload it somewhere
 1. set your file's url to `SLACK_DUMPED_LOG_URL`, and set `ROBUST_IMPORTING_MODE
