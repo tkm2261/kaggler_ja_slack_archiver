@@ -13,22 +13,22 @@ from lib.import_zip_log import import_zip_log
 
 app = Flask(__name__)
 
-CH_GENERAL_KEY = 'C0M91A5FX'
-
-NUM_MASSAGES_PER_PAGE = 50
-
-DAYS_REQUEST_PAST_LOG = 1
-
-SLACK_DUMPED_LOG_URL = 'https://storage.googleapis.com/kaggler-ja-slack-archive.appspot.com/slack_log.zip'
+from config import APP_NAME, NUM_MASSAGES_PER_PAGE, DAYS_REQUEST_PAST_LOG, SLACK_DUMPED_LOG_URL
 
 
 @app.route('/')
 def index():
+    """ Top Page
+    """
+
     ch = request.args.get('ch')
-    if ch is None:
-        ch = CH_GENERAL_KEY
+    ch_data = Channel.query().filter(Channel.id == ch).get()
+    if ch_data is None:
+        ch_data = Channel.query().order(Channel.created).get()
+
     try:
-        ch_name = Channel.query().filter(Channel.id == ch).get().name
+        ch_name = ch_data.name
+        ch = ch_data.id
     except AttributeError:
         # maybe there is no data. try to get log data.
         return redirect('/cron/job')
@@ -62,6 +62,7 @@ def index():
         next_ts = ts
 
     return render_template('index.html',
+                           app_name=APP_NAME,
                            current_ch_name=ch_name,
                            channels=channels,
                            messages=messages,
@@ -73,12 +74,18 @@ def index():
 
 @app.route('/cron/job')
 def batch():
+    """ Get new messages from API
+    """
     get_slack_data(days=DAYS_REQUEST_PAST_LOG)
     return 'successfully end.', 200
 
 
 @app.route('/upload/log')
 def upload_log():
+    """ Import messages from exported zip file.
+
+    set your exported zip file to SLACK_DUMPED_LOG_URL
+    """
     r = urllib2.urlopen(SLACK_DUMPED_LOG_URL)
     import_zip_log(r)
 
