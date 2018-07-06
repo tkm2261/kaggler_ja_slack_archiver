@@ -21,3 +21,16 @@ Our demo is here: https://kaggler-ja-slack-archive.appspot.com/
 1. Deploy your app. `gcloud app deploy app.yaml index.yaml cron.yaml`. If you want to try on local, run `dev_appserver.py app.yaml` instead.
 1. Kick first log downloading by accessing http://your_url/cron/job
 1. See your top page http://your_url/
+
+
+# How to use on your slack
+
+1. change `config.py`
+   * APP_NAME: set your app name. (it changes html title and left top workspace name)
+1. Set your API key to Settings.api_key entity on datastore.
+
+(optional)
+1. Import all messages of public channel (over 10,000 messages)
+1. Export your slack data. see https://get.slack.help/hc/en-us/articles/201658943-Export-your-workspace-data.
+1. Upload it somewhere
+1. set your file's url to `SLACK_DUMPED_LOG_URL`, and set `ROBUST_IMPORTING_MODE
