@@ -1,6 +1,10 @@
 import re
 import datetime
+import emoji
+
 from google.appengine.ext import ndb
+
+MAP_EMOJI = {k.lower(): v for k, v in emoji.EMOJI_ALIAS_UNICODE.items()}
 
 
 class Settings(ndb.Model):
@@ -116,9 +120,8 @@ class Message(ndb.Model):
     def get_reactions(self):
         ret = []
         for react in self.reactions:
-            text = react['name']
-            if text == '+1':
-                text = 'thumbsup'
+            text = u':%s:' % react['name'].replace('-', '_')
+            text = MAP_EMOJI.get(text, text)
             react['name'] = text
             ret.append(react)
         return ret
@@ -143,15 +146,14 @@ class Message(ndb.Model):
         return USER_PATTERN.sub(lambda x: r'<span class="link-user" user_id="\1">@' + _get_name(x) + '</span>', text)
 
     def _conv_emoji(self, text):
-        print(text)
-        return text.replace(':+1:', ':thumbsup:')
+        return emoji.emojize(text, use_aliases=True)
 
     def get_conved_text(self):
         text = self.text
         text = self._conv_url(text)
         text = self._conv_channel_url(text)
         text = self._conv_user_name(text)
-        #text = self._conv_emoji(text)
+        text = self._conv_emoji(text)
 
         text = text.replace('\n', '<br/>')
         return text
