@@ -7,6 +7,8 @@ logger = getLogger()
 
 from lib.slack_dumper import SlackDumper
 from lib.models import User, Channel, Message, Settings
+
+
 from config import ROBUST_IMPORTING_MODE
 
 
@@ -75,11 +77,11 @@ def _get_slack_data(days):
                 msg = Message.query().filter(Message.channel_id == channel_id, Message.user ==
                                              user, Message.ts > ts - 1, Message.ts < ts + 1).get()
             if msg is None:
-                Message(**message).put()
+                Message(**message).put_with_search_index()
             else:
                 for k, v in message.items():
                     setattr(msg, k, v)
-                msg.put()
+                msg.put_with_search_index()
 
 
 if __name__ == '__main__':

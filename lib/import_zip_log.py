@@ -68,11 +68,11 @@ def _import_zip_log(io_buffer):
             message = {k: v for k, v in message.items() if k in ents}
             msg = Message.query().filter(Message.channel_id == channel_id, Message.user == user, Message.ts == ts).get()
             if msg is None:
-                Message(**message).put()
+                Message(**message).put_with_search_index()
             else:
                 for k, v in message.items():
                     setattr(msg, k, v)
-                msg.put()
+                msg.put_with_search_index()
     logger.debug('exit')
 
 

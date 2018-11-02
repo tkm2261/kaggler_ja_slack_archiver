@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>{{ app_name }} slack Log Viewer Search {{query_string}}</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="apple-touch-icon" sizes="57x57" href="/static/img/icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/static/img/icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/static/img/icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/static/img/icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/static/img/icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/static/img/icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/static/img/icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/static/img/icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/img/icons/apple-icon-180x180.png">
+<link rel="icon" type="image/static/img/icons/png" sizes="192x192"  href="/static/img/icons/android-icon-192x192.png">
+<link rel="icon" type="image/static/img/icons/png" sizes="32x32" href="/static/img/icons/favicon-32x32.png">
+<link rel="icon" type="image/static/img/icons/png" sizes="96x96" href="/static/img/icons/favicon-96x96.png">
+<link rel="icon" type="image/static/img/icons/png" sizes="16x16" href="/static/img/icons/favicon-16x16.png">
+<link rel="manifest" href="/static/img/icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/static/img/icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet prefetch" href="https://cdn.jsdelivr.net/npm/emojione@3.1.6/extras/css/emojione.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/emojione@3.1.6/lib/js/emojione.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/slack.css">
+  
+</head>
+
+<body>
+  <div class="countainer" id="square">
+    <div class="row">
+      <div class="col-2" id="leftSquare">
+	<div class="row">
+          <div class="col-8">
+            <h1 class="title">{{ app_name }}</h1>
+          </div>
+	</div>
+      </div>
+      
+      <div class="col-10" id="rightSquare">    
+	<div id="header">  
+	  <h2 id="channel-title">
+            # {{ current_ch_name }}
+	  </h2>
+	  <hr class="bottom-header-line" />
+	</div>
+      
+	<div id="message-area">
+	  {% for msg in messages %}
+	  <div class="container message">
+            <div class="row">
+	      <div class="col-1 person-img-container">
+		<img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
+	      </div>
+	      <div class="col-11 person"> 
+		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ current_ch }}&ts={{ msg.ts + 0.01}}">jump to around this message</a> </h4> 
+		<h5 class="person-text">
+              
+		  {{ msg.get_conved_text() | safe }}
+		    
+		</h5>
+		{% if msg.reactions %}{% for react in msg.get_reactions() %}<span class="reaction">{{ react.name }}{{react.count}}</span>{% endfor%}{% endif %}		  
+	      </div>
+            </div>	      
+	  </div>
+	  {% endfor %}
+	</div>
+	<div id="footer">
+	  <nav aria-label="Page navigation example">
+	    <ul class="pagination">
+	      {% if page > 0 %}
+	      <li class="page-item"><a class="page-link" href="?q={{query_string}}&p={{ page - 1 }}">Previous</a></li>
+	      {% endif %}
+	      <li class="page-item"><a class="page-link" href="?q={{query_string}}&p={{ page + 1 }}">Next</a></li>
+	    </ul>
+	  </nav>
+	</div>
+      </div>
+    </div>            
+  </div>
+
+
+  <script type="text/javascript">
+    window.onload = function () {
+    var messages = document.getElementsByClassName("person-text");
+    for( var i = 0; i < messages.length; i++ ) {
+      var input = messages[i].innerHTML;
+      var output = emojione.shortnameToUnicode(input);
+      messages[i].innerHTML = output;
+    }
+    var messages = document.getElementsByClassName("reaction");
+    for( var i = 0; i < messages.length; i++ ) {
+      var input = messages[i].innerHTML;
+      var output = emojione.shortnameToUnicode(input);
+      messages[i].innerHTML = output;
+    }
+    }
+  </script>
+</body>
+</html>

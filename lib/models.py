@@ -105,6 +105,12 @@ class Message(ndb.Model):
         except Exception:
             return None
 
+    def get_datetime(self):
+        try:
+            return datetime.datetime.fromtimestamp(self.ts)
+        except Exception:
+            return None
+
     def get_user_name(self):
         if self.user_data is None:
             return self.user
@@ -157,3 +163,9 @@ class Message(ndb.Model):
 
         text = text.replace('\n', '<br/>')
         return text
+
+    def put_with_search_index(self):
+        from lib.search_api import SearchApiHandler
+        self.put()
+        sah = SearchApiHandler()
+        sah.put_one_document(self)

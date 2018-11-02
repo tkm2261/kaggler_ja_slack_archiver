@@ -3,6 +3,10 @@ cron:
   url: /cron/job
   schedule: every 1 hours
 
+- description: "creating search index for all messages"
+  url: /cron/create_search_index
+  schedule: every 300 days
+
 #- description: "loading log job"
 #  url: /upload/log
 #  schedule: every 1 hours

@@ -5,11 +5,13 @@ import traceback
 import logging
 logging.getLogger().setLevel(logging.DEBUG)
 
+from google.appengine.ext import ndb
 from flask import Flask, render_template, request, redirect
 
 from lib.models import User, Channel, Message
 from lib.batch import get_slack_data
 from lib.import_zip_log import import_zip_log
+from lib.search_api import SearchApiHandler
 
 app = Flask(__name__)
 
@@ -72,11 +74,46 @@ def index():
                            )
 
 
+@app.route('/search/')
+def search():
+    """ search Page
+    """
+    query_string = request.args.get('q')
+
+    ch_data = Channel.query().order(Channel.created).get()
+
+    page = request.args.get('p')
+    try:
+        page = int(page)
+    except (ValueError, TypeError):
+        page = 0
+
+    sah = SearchApiHandler()
+    list_msg = sah.search_query(query_string, page)
+
+    #messages = [Message.query(ndb.Key('message', int(m['msg_key'][0].value))) for m in list_msg]
+    messages = [ndb.Key(Message, int(m['msg_key'][0].value)).get() for m in list_msg]
+    return render_template('search.html',
+                           app_name=APP_NAME,
+                           messages=messages,
+                           page=page,
+                           )
+
+
 @app.route('/cron/job')
 def batch():
     """ Get new messages from API
     """
     get_slack_data(days=DAYS_REQUEST_PAST_LOG)
+    return 'successfully end.', 200
+
+
+@app.route('/cron/create_search_index')
+def create_search_index():
+    """ Get new messages from API
+    """
+    sah = SearchApiHandler()
+    sah.put_all_documents()
     return 'successfully end.', 200
 
 
