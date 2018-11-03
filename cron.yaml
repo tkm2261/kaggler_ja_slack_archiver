@@ -5,7 +5,7 @@ cron:
 
 - description: "creating search index for all messages"
   url: /cron/create_search_index
-  schedule: every 300 days
+  schedule: 1 of jan,april,july,oct 00:00
 
 #- description: "loading log job"
 #  url: /upload/log

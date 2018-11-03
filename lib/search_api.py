@@ -64,8 +64,10 @@ class SearchApiHandler(object):
             sort_options=sort_options)
 
         # Build the Query and run the search
-
-        query = search.Query(query_string=query_string, options=query_options)
+        try:
+            query = search.Query(query_string=query_string, options=query_options)
+        except search.QueryError:
+            return []
         results = self.index.search(query)
 
         return results

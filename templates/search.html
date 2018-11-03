@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>{{ app_name }} slack Log Viewer Search {{query_string}}</title>
+<title>{{ app_name }} slack Log Viewer: Search {{query_string}}</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="apple-touch-icon" sizes="57x57" href="/static/img/icons/apple-icon-57x57.png">
@@ -44,16 +44,33 @@
             <h1 class="title">{{ app_name }}</h1>
           </div>
 	</div>
+	<div class="row">
+          <h2 class="channels">CHANNELS<span class="light">{{ channels.size }} </span>  </h2>
+	</div>
+	{% for channel in channels %}
+	  <a href="?ch={{ channel.id }}">	
+	<div class="row" >
+            <h2 class="channel"># {{ channel.name }}</h2>
+	</div>
+	  </a>	
+	{% endfor %}      
       </div>
       
-      <div class="col-10" id="rightSquare">    
-	<div id="header">  
-	  <h2 id="channel-title">
-            # {{ current_ch_name }}
-	  </h2>
+      <div class="col-10" id="rightSquare">
+	<div id="header">
+	  <div class="row">
+	    <h2 class="col" id="channel-title" style="margin-top: 10px;">
+              Searching Query: {{ query_string }}	    
+	    </h2>
+	    <div class="float-right col" style="margin-bottom: 10px;">
+	      <form class="form-inline" action="/search/" method="GET">
+		<input class="form-control" type="text" placeholder="Search" name="q" value="{{ query_string }}">
+		<button class="btn btn-dark" type="submit">Search</button>
+              </form>
+	    </div>	  
 	  <hr class="bottom-header-line" />
-	</div>
-      
+	  </div>
+	  
 	<div id="message-area">
 	  {% for msg in messages %}
 	  <div class="container message">
@@ -62,7 +79,7 @@
 		<img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
 	      </div>
 	      <div class="col-11 person"> 
-		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ current_ch }}&ts={{ msg.ts + 0.01}}">jump to around this message</a> </h4> 
+		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ msg.channel_id }}&ts={{ msg.ts + 0.01}}">jump to around this message</a> </h4> 
 		<h5 class="person-text">
               
 		  {{ msg.get_conved_text() | safe }}

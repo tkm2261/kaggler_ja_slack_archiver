@@ -80,8 +80,7 @@ def search():
     """
     query_string = request.args.get('q')
 
-    ch_data = Channel.query().order(Channel.created).get()
-
+    channels = Channel.query().order(Channel.created).iter()
     page = request.args.get('p')
     try:
         page = int(page)
@@ -95,7 +94,9 @@ def search():
     messages = [ndb.Key(Message, int(m['msg_key'][0].value)).get() for m in list_msg]
     return render_template('search.html',
                            app_name=APP_NAME,
+                           channels=channels,
                            messages=messages,
+                           query_string=query_string,
                            page=page,
                            )
 
