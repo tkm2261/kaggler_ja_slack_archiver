@@ -48,7 +48,7 @@
           <h2 class="channels">CHANNELS<span class="light">{{ channels.size }} </span>  </h2>
 	</div>
 	{% for channel in channels %}
-	  <a href="?ch={{ channel.id }}">	
+	  <a href="/?ch={{ channel.id }}">
 	<div class="row" >
             <h2 class="channel"># {{ channel.name }}</h2>
 	</div>
@@ -79,7 +79,9 @@
 		<img class="person-img" src="{{ msg.get_user_img_url() }}" width=48px>
 	      </div>
 	      <div class="col-11 person"> 
-		<h4 class="person-name"> {{ msg.get_user_name() }}  <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ msg.channel_id }}&ts={{ msg.ts + 0.01}}">jump to around this message</a> </h4> 
+		<h4 class="person-name"> {{ msg.get_user_name() }}
+		  <a class="message-link" href="/?ch={{ msg.channel_id }}">#{{ msg.get_channel_name() }}</a>
+		    <span class="time">{{ msg.get_ts_timestamp() }}</span> <a class="message-link" href="/?ch={{ msg.channel_id }}&ts={{ msg.ts + 0.01}}">jump to around this message</a> </h4> 
 		<h5 class="person-text">
               
 		  {{ msg.get_conved_text() | safe }}
@@ -95,9 +97,9 @@
 	  <nav aria-label="Page navigation example">
 	    <ul class="pagination">
 	      {% if page > 0 %}
-	      <li class="page-item"><a class="page-link" href="?q={{query_string}}&p={{ page - 1 }}">Previous</a></li>
+	      <li class="page-item"><a class="page-link" href="./?q={{query_string}}&p={{ page - 1 }}">Previous</a></li>
 	      {% endif %}
-	      <li class="page-item"><a class="page-link" href="?q={{query_string}}&p={{ page + 1 }}">Next</a></li>
+	      <li class="page-item"><a class="page-link" href="./?q={{query_string}}&p={{ page + 1 }}">Next</a></li>
 	    </ul>
 	  </nav>
 	</div>

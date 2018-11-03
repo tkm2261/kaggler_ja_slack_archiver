@@ -99,6 +99,12 @@ class Message(ndb.Model):
             self._user_data = User.query(User.id == self.user).get()
         return self._user_data
 
+    def get_channel_name(self):
+        try:
+            return Channel.query(Channel.id == self.channel_id).get().name
+        except Exception:
+            return ''
+
     def get_ts_timestamp(self):
         try:
             return datetime.datetime.fromtimestamp(self.ts).strftime('%Y/%m/%d %H:%M')
